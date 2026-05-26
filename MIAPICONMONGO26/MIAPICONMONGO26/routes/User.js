@@ -1,30 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const Book = require('../models/Book');
+const User = require('../models/User');
+
 router.get('/', async (req, res) => {
-    Book.find()
+    User.find()
         .then(data => res.json(data))
         .catch(err => res.status(500).json({ message: err.message }));
 });
 
 router.post('/', async (req, res) => {
-    const { title, description, author } = req.body;
-    const book = new Book({ title, description, author });
-    book.save()
+    const { name, email, password_hash, is_seller, seller_data, addresses } = req.body;
+    const user = new User({ name, email, password_hash, is_seller, seller_data, addresses });
+    user.save()
         .then(data => res.status(201).json(data))
         .catch(err => res.status(400).json({ message: err.message }));
 });
 
 router.patch('/:id', async (req, res) => {
-    const { title, description, author } = req.body;
-    Book.updateOne({ _id: req.params.id }, {$set: { title, description, author }
-    })
+    const { name, email, password_hash, is_seller, seller_data, addresses } = req.body;
+    User.updateOne({ _id: req.params.id }, { $set: { name, email, password_hash, is_seller, seller_data, addresses } })
         .then(data => res.json(data))
         .catch(err => res.status(400).json({ message: err.message }));
 });
 
 router.delete('/:id', async (req, res) => {
-    Book.deleteOne({ _id: req.params.id })
+    User.deleteOne({ _id: req.params.id })
         .then(data => res.json(data))
         .catch(err => res.status(400).json({ message: err.message }));
 });

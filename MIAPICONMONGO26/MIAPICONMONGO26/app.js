@@ -5,11 +5,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const books = require('./routes/books');
+const carts = require('./routes/carts');
+const orders = require('./routes/Orders');
+const users = require('./routes/User');
+const products = require('./routes/Products');
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/api/books', books);
+app.use('/api/carts', carts);
+app.use('/api/orders', orders);
+app.use('/api/users', users);
+app.use('/api/products', products);
 
 const user = process.env.MONGODB_USER;
 const pass = process.env.MONGODB_PASSWORD;

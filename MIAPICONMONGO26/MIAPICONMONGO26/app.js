@@ -17,6 +17,10 @@ app.use('/api/orders', orders);
 app.use('/api/users', users);
 app.use('/api/products', products);
 
+// Middleware de manejo de errores global
+const errorHandler = require('./middlewares/errorHandler');
+app.use(errorHandler);
+
 const user = process.env.MONGODB_USER;
 const pass = process.env.MONGODB_PASSWORD;
 const PORT = process.env.PORT || 4000;

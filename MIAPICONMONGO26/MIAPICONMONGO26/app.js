@@ -1,3 +1,4 @@
+require('dotenv').config(); // Línea 1 obligatoria para leer el archivo .env
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,10 +11,18 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/api/books', books);
 
-mongoose.connect('mongodb+srv://zfelipe583:Felipe2004@damm2026.fay1ilx.mongodb.net/?retryWrites=true&w=majority&appname=damm2026')
-    .then(() => console.log('Connected to MongoDB'))
+// Extraemos solo usuario, contraseña y puerto de las variables de entorno
+const user = process.env.MONGODB_USER;
+const pass = process.env.MONGODB_PASSWORD;
+const PORT = process.env.PORT || 4000;
+
+// Construimos la URI inyectando tus dos variables de seguridad
+const mongoURI = `mongodb+srv://${user}:${pass}@marketplace-cluster.b7rlju2.mongodb.net/marketplace_db?appName=marketplace-cluster`;
+
+mongoose.connect(mongoURI)
+    .then(() => console.log('Connected to MongoDB Atlas using environment variables'))
     .catch(err => console.error('Could not connect to MongoDB', err));
 
-app.listen(4000, () => {
-    console.log('Server is running on port 4000');
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
